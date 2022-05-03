@@ -21,7 +21,7 @@ public class Actual : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         rotateAngle = traj.GetComponent<JointStateSubscriber>().pos;
         //targetRotation = Quaternion.Euler(0, 0, rotateAngle + origionz) * Quaternion.identity;
