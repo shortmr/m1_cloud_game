@@ -7,13 +7,13 @@ using JointState = RosMessageTypes.Sensor.JointStateMsg;
 public class JointStateSubscriber : MonoBehaviour
 {
     private bool startup = true;
-    public string m1;
+    public string data;
     public float pos;
 
     void Start() {
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 50;
         if (startup) {
-            ROSConnection.GetOrCreateInstance().Subscribe<JointState>("/" + m1 + "/", StreamData);
+            ROSConnection.GetOrCreateInstance().Subscribe<JointState>("/" + data + "/", StreamData);
             startup = false;
         }
     }
