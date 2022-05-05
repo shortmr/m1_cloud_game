@@ -14,6 +14,7 @@ public class Actual : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Application.targetFrameRate = 60;
         origionz = -90;
         gain = 100.0f;
         traj = GameObject.Find(subscriber);
