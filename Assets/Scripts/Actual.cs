@@ -16,7 +16,7 @@ public class Actual : MonoBehaviour
     void Start()
     {
         Application.targetFrameRate = 50;
-        origionz = -90;
+        origionz = -60; // -60
         gain = 100.0f;
         traj = GameObject.Find(subscriber);
     }

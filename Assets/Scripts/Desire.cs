@@ -16,7 +16,7 @@ public class Desire : MonoBehaviour
     void Start()
     {
         Application.targetFrameRate = 50;
-        origionz = -90;
+        origionz = -60; // 74.4845f +17.1887f
         gain = 100.0f;
         traj = GameObject.Find(subscriber);
     }
