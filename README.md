@@ -1,8 +1,4 @@
 # m1_cloud_game
 position tracking of particle system with M1 ankle robot
 
-
-
-
-https://user-images.githubusercontent.com/77642981/187559766-4746f567-99ac-45e8-ac73-529b0f5332a5.mp4
-
+https://user-images.githubusercontent.com/77642981/187560429-8509a925-e72c-463c-a3a3-2667ea28812b.mp4
