@@ -26,6 +26,7 @@ public class MainLoop : MonoBehaviour
     private int r_r;
     private int r_mp;
     private int r_s;
+    private string tempText;
 
     private float previousAngle;
     private int max_stage;
@@ -82,7 +83,8 @@ public class MainLoop : MonoBehaviour
             mainX.startSpeed = s[r_s];
             mainY.startSpeed = s[r_s];
 
-            cond.GetComponent<TextMeshProUGUI>().text = cond.GetComponent<TextMeshProUGUI>().text + "\n" + r[r_r].ToString() + " " + mp[r_mp].ToString() + " " + s[r_s].ToString();
+            tempText = cond.GetComponent<TextMeshProUGUI>().text + "\n" + r[r_r].ToString() + " " + mp[r_mp].ToString() + " " + s[r_s].ToString();
+            cond.GetComponent<TextMeshProUGUI>().text = tempText;
         }
     }
 
@@ -129,7 +131,8 @@ public class MainLoop : MonoBehaviour
                         mainX.startSpeed = s[r_s];
                         mainY.startSpeed = s[r_s];
 
-                        cond.GetComponent<TextMeshProUGUI>().text = cond.GetComponent<TextMeshProUGUI>().text + "\n" + mp[r_mp].ToString() + " " + r[r_r].ToString();
+                        tempText = cond.GetComponent<TextMeshProUGUI>().text + "\n" + r[r_r].ToString() + " " + mp[r_mp].ToString() + " " + s[r_s].ToString();
+                        cond.GetComponent<TextMeshProUGUI>().text = tempText;
                     }
                 }
             }
