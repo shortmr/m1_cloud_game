@@ -7,7 +7,6 @@ public class SwitchDisplay : MonoBehaviour
 {
     public GameObject cameraX;
     public GameObject cameraY;
-    public GameObject displayButton;
 
     private int displayX;
     private int displayY;
@@ -18,13 +17,21 @@ public class SwitchDisplay : MonoBehaviour
     void Start()
     {
         Application.targetFrameRate = 50;
-        cameraX.GetComponent<Camera>().targetDisplay = 1;
-        cameraY.GetComponent<Camera>().targetDisplay = 2;
+
+        displayText = PlayerPrefs.GetString("display", "m1_x : m1_y"); // get stored display
+        if (displayText == "m1_x : m1_y") {
+            cameraX.GetComponent<Camera>().targetDisplay = 1;
+            cameraY.GetComponent<Camera>().targetDisplay = 2;
+        }
+        else {
+            cameraX.GetComponent<Camera>().targetDisplay = 2;
+            cameraY.GetComponent<Camera>().targetDisplay = 1;
+        }
+
         displayX = cameraX.GetComponent<Camera>().targetDisplay;
         displayY = cameraY.GetComponent<Camera>().targetDisplay;
 
-        text = displayButton.GetComponentInChildren<TMP_Text>();
-        displayText = "m1_x : m1_y";
+        text = GetComponentInChildren<TMP_Text>();
         text.text = displayText;
     }
 
@@ -49,7 +56,9 @@ public class SwitchDisplay : MonoBehaviour
             cameraY.GetComponent<Camera>().targetDisplay = 1;
             displayY = 1;
         }
-        text = displayButton.GetComponentInChildren<TMP_Text>();
+        text = GetComponentInChildren<TMP_Text>();
         text.text = displayText;
+
+        PlayerPrefs.SetString("display",displayText);
     }
 }
