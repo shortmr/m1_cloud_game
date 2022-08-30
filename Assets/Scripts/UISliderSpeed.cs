@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class UISliderRadius : MonoBehaviour
+public class UISliderSpeed : MonoBehaviour
 {
 
     public ParticleSystem circleX;
@@ -12,7 +12,7 @@ public class UISliderRadius : MonoBehaviour
     public GameObject main;
     public GameObject valueText;
 
-    private int maxAmount = 60;
+    private int maxAmount = 100;
     private Slider paramSlider = null;
     private int numberOfSteps = 0;
     private int stepAmount = 1;
@@ -25,7 +25,7 @@ public class UISliderRadius : MonoBehaviour
         paramSlider.maxValue = maxAmount;
         numberOfSteps = (int) paramSlider.maxValue / stepAmount;
 
-        paramSlider.value = PlayerPrefs.GetInt("radius",15);
+        paramSlider.value = PlayerPrefs.GetInt("speed",30);
         valueText.GetComponent<TextMeshProUGUI>().text = paramSlider.value.ToString();
     }
 
@@ -35,14 +35,14 @@ public class UISliderRadius : MonoBehaviour
         int ceil = Mathf.CeilToInt(range);
         paramSlider.value = ceil * stepAmount;
         if (!main.GetComponent<MainLoop>().randomMode) {
-            var shapeX = circleX.shape;
-            var shapeY = circleY.shape;
-            shapeX.radius = paramSlider.value;
-            shapeY.radius = paramSlider.value;
+            var mainX = circleX.main;
+            var mainY = circleY.main;
+            mainX.startSpeed = paramSlider.value;
+            mainY.startSpeed = paramSlider.value;
         }
         displayText = paramSlider.value.ToString();
         valueText.GetComponent<TextMeshProUGUI>().text = displayText;
 
-        PlayerPrefs.SetInt("radius",(int) paramSlider.value);
+        PlayerPrefs.SetInt("speed",(int) paramSlider.value);
     }
 }

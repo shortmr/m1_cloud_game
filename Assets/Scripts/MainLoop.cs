@@ -12,20 +12,23 @@ public class MainLoop : MonoBehaviour
     public GameObject textE;
     public GameObject textX;
     public GameObject textY;
+    public GameObject nameX;
+    public GameObject nameY;
     public GameObject neutralX;
     public GameObject neutralY;
     public GameObject cond;
     public bool randomMode;
 
     private int stage;
-    private int[] r = {10, 20, 40};
+    private int[] r = {15, 30, 45};
     private int[] mp = {10};
+    private int[] s = {30};
     private int r_r;
     private int r_mp;
+    private int r_s;
 
     private float previousAngle;
     private int max_stage;
-    private bool running;
     private bool neutral;
     private bool pass;
 
@@ -34,7 +37,6 @@ public class MainLoop : MonoBehaviour
         // Initialize stage count
         stage = 0;
         max_stage = 15;
-        running = false;
         neutral = false;
         pass = false;
         textE.GetComponent<TextMeshProUGUI>().text = stage.ToString();
@@ -53,17 +55,20 @@ public class MainLoop : MonoBehaviour
         if (!randomMode) {
             var shapeX = circleX.shape;
             var shapeY = circleY.shape;
-            shapeX.radius = PlayerPrefs.GetInt("radius",10);
-            shapeY.radius = PlayerPrefs.GetInt("radius",10);
+            shapeX.radius = PlayerPrefs.GetInt("radius",15);
+            shapeY.radius = PlayerPrefs.GetInt("radius",15);
 
             var mainX = circleX.main;
             var mainY = circleY.main;
             mainX.maxParticles = PlayerPrefs.GetInt("max_particles",10);
             mainY.maxParticles = PlayerPrefs.GetInt("max_particles",10);
+            mainX.startSpeed = PlayerPrefs.GetInt("speed",30);
+            mainY.startSpeed = PlayerPrefs.GetInt("speed",30);
         }
         else {
             r_r = Random.Range(0, r.Length);
             r_mp = Random.Range(0, mp.Length);
+            r_s = Random.Range(0, s.Length);
 
             var shapeX = circleX.shape;
             var shapeY = circleY.shape;
@@ -74,14 +79,16 @@ public class MainLoop : MonoBehaviour
             var mainY = circleY.main;
             mainX.maxParticles = mp[r_mp];
             mainY.maxParticles = mp[r_mp];
+            mainX.startSpeed = s[r_s];
+            mainY.startSpeed = s[r_s];
 
-            cond.GetComponent<TextMeshProUGUI>().text = cond.GetComponent<TextMeshProUGUI>().text + "\n" + mp[r_mp].ToString() + " " + r[r_r].ToString();
+            cond.GetComponent<TextMeshProUGUI>().text = cond.GetComponent<TextMeshProUGUI>().text + "\n" + r[r_r].ToString() + " " + mp[r_mp].ToString() + " " + s[r_s].ToString();
         }
     }
 
     void Update()
     {
-        if ((previousAngle-cloudX.transform.localEulerAngles.z) > 10f & running)
+        if ((previousAngle-cloudX.transform.localEulerAngles.z) > 10f)
         {
             // Deactivate cloud
             var emissionX = circleX.emission;
@@ -97,9 +104,18 @@ public class MainLoop : MonoBehaviour
                     textX.GetComponent<TextMeshProUGUI>().text = stage.ToString();
                     textY.GetComponent<TextMeshProUGUI>().text = stage.ToString();
 
+                    // grey out text on final stage
+                    if (stage == max_stage) {
+                        textX.GetComponent<TextMeshProUGUI>().color = new Color (0.67f,0.67f,0.67f, 1.0f);
+                        textY.GetComponent<TextMeshProUGUI>().color = new Color (0.67f,0.67f,0.67f, 1.0f);
+                        nameX.GetComponent<TextMeshProUGUI>().color = new Color (0.67f,0.67f,0.67f, 1.0f);
+                        nameY.GetComponent<TextMeshProUGUI>().color = new Color (0.67f,0.67f,0.67f, 1.0f);
+                    }
+
                     if (randomMode) {
                         r_r = Random.Range(0, r.Length);
                         r_mp = Random.Range(0, mp.Length);
+                        r_s = Random.Range(0, s.Length);
 
                         var shapeX = circleX.shape;
                         var shapeY = circleY.shape;
@@ -110,6 +126,8 @@ public class MainLoop : MonoBehaviour
                         var mainY = circleY.main;
                         mainX.maxParticles = mp[r_mp];
                         mainY.maxParticles = mp[r_mp];
+                        mainX.startSpeed = s[r_s];
+                        mainY.startSpeed = s[r_s];
 
                         cond.GetComponent<TextMeshProUGUI>().text = cond.GetComponent<TextMeshProUGUI>().text + "\n" + mp[r_mp].ToString() + " " + r[r_r].ToString();
                     }
@@ -121,7 +139,6 @@ public class MainLoop : MonoBehaviour
         }
         else if ((previousAngle-cloudX.transform.localEulerAngles.z) < -10f)
         {
-            running = true;
             // Activate cloud
             var emissionX = circleX.emission;
             var emissionY = circleY.emission;
