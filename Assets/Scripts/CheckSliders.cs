@@ -34,9 +34,25 @@ public class CheckSliders : MonoBehaviour
         t_s = PlayerPrefs.GetInt("speed",30);
 
         if (t_r == 0 & t_n == 0 & t_s == 0) {
+            // Deactivate cloud
+            ballX.SetActive(false);
+            ballY.SetActive(false);
+
+            // Activate true target
+            targetX.SetActive(true);
+            targetY.SetActive(true);
+
             check = false;
         }
         else {
+            // Activate cloud
+            ballX.SetActive(true);
+            ballY.SetActive(true);
+
+            // deactivate true target
+            targetX.SetActive(false);
+            targetY.SetActive(false);
+
             check = true;
         }
     }
