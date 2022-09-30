@@ -32,36 +32,36 @@ public class CheckSliders : MonoBehaviour
         t_r = PlayerPrefs.GetInt("radius",15);
         t_n = PlayerPrefs.GetInt("max_particles",10);
         t_s = PlayerPrefs.GetInt("speed",30);
+        if (!main.GetComponent<MainLoop>().randomMode) {
+            if (t_r == 0 & t_n == 0 & t_s == 0) {
+                // Deactivate cloud
+                ballX.SetActive(false);
+                ballY.SetActive(false);
 
-        if (t_r == 0 & t_n == 0 & t_s == 0) {
-            // Deactivate cloud
-            ballX.SetActive(false);
-            ballY.SetActive(false);
+                // Activate true target
+                targetX.SetActive(true);
+                targetY.SetActive(true);
 
-            // Activate true target
-            targetX.SetActive(true);
-            targetY.SetActive(true);
+                check = false;
+            }
+            else {
+                // Activate cloud
+                ballX.SetActive(true);
+                ballY.SetActive(true);
 
-            check = false;
-        }
-        else {
-            // Activate cloud
-            ballX.SetActive(true);
-            ballY.SetActive(true);
+                // deactivate true target
+                targetX.SetActive(false);
+                targetY.SetActive(false);
 
-            // deactivate true target
-            targetX.SetActive(false);
-            targetY.SetActive(false);
-
-            check = true;
+                check = true;
+            }
         }
     }
 
     public void SliderValues()
     {
         if (!main.GetComponent<MainLoop>().randomMode) {
-            if (r.value == 0 & n.value == 0 & s.value == 0 & check)
-            {
+            if (r.value == 0 & n.value == 0 & s.value == 0 & check) {
                 // Deactivate cloud
                 ballX.SetActive(false);
                 ballY.SetActive(false);

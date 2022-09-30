@@ -7,19 +7,19 @@ using JointState = RosMessageTypes.Sensor.JointStateMsg;
 public class JointStateSubscriber : MonoBehaviour
 {
     private bool startup = true;
-    public string data;
-    public float pos;
+    public string topic;
+    public float q;
 
     void Start() {
         Application.targetFrameRate = 50;
         if (startup) {
-            ROSConnection.GetOrCreateInstance().Subscribe<JointState>("/" + data + "/", StreamData);
+            ROSConnection.GetOrCreateInstance().Subscribe<JointState>("/" + topic + "/", StreamData);
             startup = false;
         }
     }
 
     void StreamData(JointState d) {
-        pos = (float)d.position[0];
+        q = (float)d.position[0];
     }
 
     private void Update()

@@ -5,9 +5,12 @@ using UnityEngine;
 public class Range : MonoBehaviour
 {
     public GameObject settings;
+    public GameObject neutral;
 
-    private float startRange; // default (130f) degrees (this is negative in game)
-    private float totalRange = 110f; // default (110f) degrees
+    private float startRange; // default: -130f (deg)
+    private float totalRange; // default: 110f (deg)
+    private float originRange;
+    private Quaternion targetAngle;
     private int segments = 25;
     private float xradius = 4;
     private float yradius = 4;
@@ -17,7 +20,14 @@ public class Range : MonoBehaviour
     void Start()
     {
         startRange = settings.GetComponent<DisplaySettings>().startRange;
+        totalRange = settings.GetComponent<DisplaySettings>().totalRange;
+        originRange = startRange + (totalRange/2f) - 1.5f; // center of range with bias for more plantarflexion
 
+        // Set neutral position
+        targetAngle = Quaternion.Euler(0, 0, originRange) * Quaternion.identity;
+        neutral.transform.localRotation = Quaternion.Slerp(neutral.transform.rotation, targetAngle, Time.deltaTime * 100);
+
+        // Draw angle range
         line = gameObject.GetComponent<LineRenderer>();
         line.positionCount = segments + 1;
         line.useWorldSpace = false;

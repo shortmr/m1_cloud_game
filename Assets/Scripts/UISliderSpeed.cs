@@ -39,6 +39,8 @@ public class UISliderSpeed : MonoBehaviour
             var mainY = circleY.main;
             mainX.startSpeed = paramSlider.value;
             mainY.startSpeed = paramSlider.value;
+            //mainX.startSpeed = new ParticleSystem.MinMaxCurve(paramSlider.value-10, paramSlider.value+10);
+            //mainY.startSpeed = new ParticleSystem.MinMaxCurve(paramSlider.value-10, paramSlider.value+10);
         }
         displayText = paramSlider.value.ToString();
         valueText.GetComponent<TextMeshProUGUI>().text = displayText;

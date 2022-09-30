@@ -5,6 +5,7 @@ using UnityEngine;
 public class DisplaySettings : MonoBehaviour
 {
     public float startRange;
+    public float totalRange;
 
     // Start is called before the first frame update
     void Start()
