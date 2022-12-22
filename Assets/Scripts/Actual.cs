@@ -16,7 +16,6 @@ public class Actual : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Application.targetFrameRate = 50;
         traj = jointState;
         originz = settings.GetComponent<DisplaySettings>().startRange + 65;
     }

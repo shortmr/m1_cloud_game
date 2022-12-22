@@ -16,7 +16,6 @@ public class Desired : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Application.targetFrameRate = 50;
         traj = jointCommand;
         originz = settings.GetComponent<DisplaySettings>().startRange + 65;
     }

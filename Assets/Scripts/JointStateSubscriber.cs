@@ -11,7 +11,6 @@ public class JointStateSubscriber : MonoBehaviour
     public float q;
 
     void Start() {
-        Application.targetFrameRate = 50;
         if (startup) {
             ROSConnection.GetOrCreateInstance().Subscribe<JointState>("/" + topic + "/", StreamData);
             startup = false;

@@ -16,7 +16,6 @@ public class SwitchDisplay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Application.targetFrameRate = 50;
 
         displayText = PlayerPrefs.GetString("display", "m1_x : m1_y"); // get stored display
         if (displayText == "m1_x : m1_y") {
