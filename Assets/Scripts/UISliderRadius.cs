@@ -7,8 +7,7 @@ using TMPro;
 public class UISliderRadius : MonoBehaviour
 {
 
-    public ParticleSystem circleX;
-    public ParticleSystem circleY;
+    public ParticleSystem circle;
     public GameObject main;
     public GameObject valueText;
 
@@ -35,10 +34,8 @@ public class UISliderRadius : MonoBehaviour
         int ceil = Mathf.CeilToInt(range);
         paramSlider.value = ceil * stepAmount;
         if (!main.GetComponent<MainLoop>().randomMode) {
-            var shapeX = circleX.shape;
-            var shapeY = circleY.shape;
-            shapeX.radius = paramSlider.value;
-            shapeY.radius = paramSlider.value;
+            var shape_ = circle.shape;
+            shape_.radius = paramSlider.value;
         }
         displayText = paramSlider.value.ToString();
         valueText.GetComponent<TextMeshProUGUI>().text = displayText;

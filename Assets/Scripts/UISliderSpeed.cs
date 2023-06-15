@@ -7,8 +7,7 @@ using TMPro;
 public class UISliderSpeed : MonoBehaviour
 {
 
-    public ParticleSystem circleX;
-    public ParticleSystem circleY;
+    public ParticleSystem circle;
     public GameObject main;
     public GameObject valueText;
 
@@ -35,10 +34,8 @@ public class UISliderSpeed : MonoBehaviour
         int ceil = Mathf.CeilToInt(range);
         paramSlider.value = ceil * stepAmount;
         if (!main.GetComponent<MainLoop>().randomMode) {
-            var mainX = circleX.main;
-            var mainY = circleY.main;
-            mainX.startSpeed = paramSlider.value;
-            mainY.startSpeed = paramSlider.value;
+            var main_ = circle.main;
+            main_.startSpeed = paramSlider.value;
             //mainX.startSpeed = new ParticleSystem.MinMaxCurve(paramSlider.value-10, paramSlider.value+10);
             //mainY.startSpeed = new ParticleSystem.MinMaxCurve(paramSlider.value-10, paramSlider.value+10);
         }
