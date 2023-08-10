@@ -7,12 +7,13 @@ public class DisplaySettings : MonoBehaviour
     public float startRange;
     public float totalRange;
     public float frameRate;
+    public float screenConversion; // mm to unity position units (0.032 = 1 mm)
 
     // Start is called before the first frame update
     void Start()
     {
         Application.targetFrameRate = (int) frameRate;
-//         QualitySettings.vSyncCount = 0;
+        QualitySettings.vSyncCount = 0;
     }
 
     // Update is called once per frame
