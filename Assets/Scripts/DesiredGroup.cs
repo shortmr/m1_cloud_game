@@ -5,14 +5,29 @@ using UnityEngine;
 public class DesiredGroup : MonoBehaviour
 {
     public GameObject[] groupPoints;
-
+    public GameObject settings;
+    private float noisef;
+    private float fr;
     // Start is called before the first frame update
     void Start()
     {
+        noisef = settings.GetComponent<DisplaySettings>().noiseUpdate;
+        fr = settings.GetComponent<DisplaySettings>().frameRate;
         for (int i = 0; i < groupPoints.Length; i++)
         {
             groupPoints[i].GetComponent<GroupPoint>().rand = new System.Random(System.Guid.NewGuid().GetHashCode());
-            groupPoints[i].GetComponent<GroupPoint>().timer = 0.01f*(float) i; // add offset to each point
+            groupPoints[i].GetComponent<GroupPoint>().timer = noisef/(1000f)*((float) i / (float) groupPoints.Length); // add offset to each point
+        }
+    }
+
+    public void Reset(float angle, float position, float velocity)
+    {
+        //update noise parameters
+        for (int i = 0; i < groupPoints.Length; i++)
+        {
+            groupPoints[i].GetComponent<GroupPoint>().stdAngle = angle*(Mathf.PI / 180f);
+            groupPoints[i].GetComponent<GroupPoint>().stdPosition = position;
+            groupPoints[i].GetComponent<GroupPoint>().stdVelocity = velocity*(Mathf.PI / 180f);
         }
     }
 

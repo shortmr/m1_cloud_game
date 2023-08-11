@@ -14,7 +14,7 @@ public class UISliderNoise : MonoBehaviour
     private Slider paramSlider = null;
     private float sliderInit;
     private int numberOfSteps = 0;
-    private float stepAmount = 0.1f;
+    private float stepAmount = 0.01f;
     private string displayText;
 
     // Start is called before the first frame update
@@ -35,7 +35,7 @@ public class UISliderNoise : MonoBehaviour
         }
         paramSlider.value = sliderInit;
         desiredGroup.GetComponent<DesiredGroup>().Refresh(paramSlider.value,type);
-        valueText.GetComponent<TextMeshProUGUI>().text = paramSlider.value.ToString();
+        valueText.GetComponent<TextMeshProUGUI>().text = paramSlider.value.ToString("0.00");
     }
 
     public void ChangeValue()
@@ -45,7 +45,7 @@ public class UISliderNoise : MonoBehaviour
         paramSlider.value = (float) ceil * stepAmount;
         desiredGroup.GetComponent<DesiredGroup>().Refresh(paramSlider.value,type);
 
-        displayText = paramSlider.value.ToString();
+        displayText = paramSlider.value.ToString("0.00");
         valueText.GetComponent<TextMeshProUGUI>().text = displayText;
         if (type == 1) {
             PlayerPrefs.SetFloat("angle",paramSlider.value);
