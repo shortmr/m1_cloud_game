@@ -1809,9 +1809,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startRange: -130
   totalRange: 110
-  frameRate: 50
+  frameRate: 60
   screenConversion: 0.032
-  noiseUpdate: 100
+  noiseUpdate: 200
 --- !u!4 &337347702
 Transform:
   m_ObjectHideFlags: 0

@@ -9,9 +9,9 @@ public class GroupPoint : MonoBehaviour
     public GameObject jointCommand;
     public System.Random rand;
     public float timer = 0f;
-    public float stdAngle = 0.08f; // rad
-    public float stdPosition = 10f;  // mm
-    public float stdVelocity = 0.07f; // rad/s
+    public float stdAngle; // rad
+    public float stdPosition; // mm
+    public float stdVelocity; // rad/s
 
     private float originz; //  default: -65f (deg)
     private float gain = 100.0f; // approx. radian2degree * 1.745 (adjusting gain will require additional changes)
@@ -33,46 +33,40 @@ public class GroupPoint : MonoBehaviour
     {
         originz = settings.GetComponent<DisplaySettings>().startRange + 65;
         convf = settings.GetComponent<DisplaySettings>().screenConversion;
-        noisef = settings.GetComponent<DisplaySettings>().noiseUpdate;
-        spawnTime = noisef/1000f; // update points according to noise frequency
 
         randAngle = 0f;
         randPosition = 0f;
         randVelocity = 0f;
     }
 
+    public void Replace() {
+        currentAngle = jointCommand.GetComponent<JointStateSubscriber>().q;
+        // RNG
+        // rotation
+        float u1 = 1.0f-(float)rand.NextDouble(); //uniform(0,1] random floats
+        float u2 = 1.0f-(float)rand.NextDouble();
+        float randStdNormal = Mathf.Sqrt(-2.0f * Mathf.Log(u1)) * Mathf.Sin(2.0f * Mathf.PI * u2); //random normal(0,1)
+        randAngle = stdAngle * randStdNormal; //random normal(0,stdDev^2)
+
+        // position
+        u1 = 1.0f-(float)rand.NextDouble(); //uniform(0,1] random floats
+        u2 = 1.0f-(float)rand.NextDouble();
+        randStdNormal = Mathf.Sqrt(-2.0f * Mathf.Log(u1)) * Mathf.Sin(2.0f * Mathf.PI * u2); //random normal(0,1)
+        randPosition = stdPosition * randStdNormal; //random normal(0,stdDev^2)
+
+        // velocity
+        u1 = 1.0f-(float)rand.NextDouble(); //uniform(0,1] random floats
+        u2 = 1.0f-(float)rand.NextDouble();
+        randStdNormal = Mathf.Sqrt(-2.0f * Mathf.Log(u1)) * Mathf.Sin(2.0f * Mathf.PI * u2); //random normal(0,1)
+        randVelocity = stdVelocity * randStdNormal; //random normal(0,stdDev^2)
+
+        transform.parent.rotation = Quaternion.Euler(0, 0, ((currentAngle+randAngle)*gain) + originz) * Quaternion.identity;
+        transform.localPosition = new Vector3(0f,4f+randPosition*convf,0.05f);
+    }
+
     // Update is called once per frame
     void Update()
     {
-        currentAngle = jointCommand.GetComponent<JointStateSubscriber>().q;
-        timer += Time.deltaTime;
-        if (timer > spawnTime) {
-            // RNG
-            // rotation
-            float u1 = 1.0f-(float)rand.NextDouble(); //uniform(0,1] random floats
-            float u2 = 1.0f-(float)rand.NextDouble();
-            float randStdNormal = Mathf.Sqrt(-2.0f * Mathf.Log(u1)) * Mathf.Sin(2.0f * Mathf.PI * u2); //random normal(0,1)
-            randAngle = stdAngle * randStdNormal; //random normal(0,stdDev^2)
-
-            // position
-            u1 = 1.0f-(float)rand.NextDouble(); //uniform(0,1] random floats
-            u2 = 1.0f-(float)rand.NextDouble();
-            randStdNormal = Mathf.Sqrt(-2.0f * Mathf.Log(u1)) * Mathf.Sin(2.0f * Mathf.PI * u2); //random normal(0,1)
-            randPosition = stdPosition * randStdNormal; //random normal(0,stdDev^2)
-
-            // velocity
-            u1 = 1.0f-(float)rand.NextDouble(); //uniform(0,1] random floats
-            u2 = 1.0f-(float)rand.NextDouble();
-            randStdNormal = Mathf.Sqrt(-2.0f * Mathf.Log(u1)) * Mathf.Sin(2.0f * Mathf.PI * u2); //random normal(0,1)
-            randVelocity = stdVelocity * randStdNormal; //random normal(0,stdDev^2)
-
-            transform.parent.rotation = Quaternion.Euler(0, 0, ((currentAngle+randAngle)*gain) + originz) * Quaternion.identity;
-            transform.localPosition = new Vector3(0f,4f+randPosition*convf,0.05f);
-            timer = 0f;
-        }
-        else {
-            transform.parent.Rotate(0,0,gain*randVelocity*Time.deltaTime);
-//             transform.parent.rotation = Quaternion.Euler(0, 0, ((currentAngle+randAngle+randVelocity*Time.deltaTime)*gain) + originz) * Quaternion.identity;
-        }
+        transform.parent.Rotate(0,0,gain*randVelocity*Time.deltaTime);
     }
 }

@@ -6,17 +6,30 @@ public class DesiredGroup : MonoBehaviour
 {
     public GameObject[] groupPoints;
     public GameObject settings;
-    private float noisef;
-    private float fr;
+
+    private float spawnTime;
+    private float totalTime;
+    private Vector3 startPosition;
+    private float timer;
+    private float[] groupSpawns;
+    private bool[] groupUpdates;
+    private int[] groupUpdateCounts;
+
     // Start is called before the first frame update
     void Start()
     {
-        noisef = settings.GetComponent<DisplaySettings>().noiseUpdate;
-        fr = settings.GetComponent<DisplaySettings>().frameRate;
+        spawnTime = settings.GetComponent<DisplaySettings>().noiseUpdate/1000f; // replace rate in seconds
+        groupSpawns = new float[groupPoints.Length];
+        groupUpdates = new bool[groupPoints.Length];
+        groupUpdateCounts = new int[groupPoints.Length];
+        timer = 0f;
+        totalTime = 0f;
         for (int i = 0; i < groupPoints.Length; i++)
         {
             groupPoints[i].GetComponent<GroupPoint>().rand = new System.Random(System.Guid.NewGuid().GetHashCode());
-            groupPoints[i].GetComponent<GroupPoint>().timer = noisef/(1000f)*((float) i / (float) groupPoints.Length); // add offset to each point
+            groupUpdates[i] = false;
+            groupUpdateCounts[i] = 0;
+            groupSpawns[i] = spawnTime - (spawnTime*((float) i / (float) groupPoints.Length));
         }
     }
 
@@ -44,6 +57,35 @@ public class DesiredGroup : MonoBehaviour
             }
             else if (type == 3) {
                 groupPoints[i].GetComponent<GroupPoint>().stdVelocity = value*(Mathf.PI / 180f);
+            }
+        }
+    }
+
+    void Update() {
+        totalTime += Time.deltaTime;
+        if (totalTime > 10f) {
+            for (int k = 0; k < groupPoints.Length; k++) {
+                Debug.Log("pt0" + k + " updates: " + groupUpdateCounts[k]);
+                groupUpdateCounts[k] = 0;
+            }
+            totalTime = 0f;
+        }
+        timer += Time.deltaTime;
+        //replace points
+        for (int i = 0; i < groupPoints.Length; i++)
+        {
+            if (!groupUpdates[i]) {
+                if (timer > groupSpawns[i]) {
+                    groupPoints[i].GetComponent<GroupPoint>().Replace();
+                    groupUpdates[i] = true;
+                    groupUpdateCounts[i] += 1;
+                    if (i == 0) {
+                        timer = 0f;
+                        for (int j = 0; j < groupPoints.Length; j++) {
+                            groupUpdates[j] = false;
+                        }
+                    }
+                }
             }
         }
     }
