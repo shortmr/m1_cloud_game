@@ -6197,9 +6197,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 302c67db44bcfb8f79891713723c0a69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targets:
-  - {fileID: 1861109422}
-  - {fileID: 1249544673}
   texts:
   - {fileID: 351903235}
   - {fileID: 1342599878}
@@ -6217,6 +6214,7 @@ MonoBehaviour:
   - {fileID: 1865425418}
   - {fileID: 1042090768}
   - {fileID: 487930922}
+  jointTracking: {fileID: 107524389}
 --- !u!4 &1176706138
 Transform:
   m_ObjectHideFlags: 0

@@ -8,11 +8,11 @@ using UnityEngine.UI;
 
 public class MainLoop : MonoBehaviour
 {
-    public GameObject[] targets;
     public GameObject[] texts;
     public GameObject[] neutrals;
     public GameObject[] desiredGroups;
     public GameObject[] noiseSliders;
+    public GameObject jointTracking;
 
     private int stage;
     private float previousAngle;
@@ -41,8 +41,8 @@ public class MainLoop : MonoBehaviour
 
     void Update()
     {
-        if ((previousAngle-targets[0].transform.localEulerAngles.z) > 10f) {
-            // Deactivate cloud
+        if ((previousAngle-jointTracking.GetComponent<JointStateSubscriber>().target) > 0.5f) {
+            // Deactivate cloud (if change in angle greater than 0.5 radians)
             for (int i = 0; i < desiredGroups.Length; i++)
             {
                 desiredGroups[i].GetComponent<DesiredGroup>().Reset(0f,0f,0f);
@@ -62,8 +62,8 @@ public class MainLoop : MonoBehaviour
                 pass = true;
             }
         }
-        else if ((previousAngle-targets[0].transform.localEulerAngles.z) < -10f) {
-            // Reactivate cloud
+        else if ((previousAngle-jointTracking.GetComponent<JointStateSubscriber>().target) < -0.5f) {
+            // Reactivate cloud (if change in angle less than -0.5 radians)
             for (int i = 0; i < desiredGroups.Length; i++)
             {
                 int sliderIndex = 0;
@@ -90,7 +90,7 @@ public class MainLoop : MonoBehaviour
                 neutral = true;
             }
         }
-        previousAngle = targets[0].transform.localEulerAngles.z;
+        previousAngle = jointTracking.GetComponent<JointStateSubscriber>().target;
     }
 }
 
