@@ -18,6 +18,7 @@ public class MainLoop : MonoBehaviour
     private float previousAngle;
     private bool neutral;
     private bool pass;
+    private bool initialized;
 
     void Start()
     {
@@ -25,6 +26,7 @@ public class MainLoop : MonoBehaviour
         stage = 0;
         neutral = false;
         pass = false;
+        initialized = false;
 
         for (int i = 0; i < texts.Length; i++)
         {
@@ -74,9 +76,14 @@ public class MainLoop : MonoBehaviour
                 desiredGroups[i].GetComponent<DesiredGroup>().Reset(angle,position,velocity);
             }
             if (neutral) {
-                for (int i = 0; i < neutrals.Length; i++)
-                {
-                    neutrals[i].SetActive(false);
+                if (initialized) {
+                    for (int i = 0; i < neutrals.Length; i++)
+                    {
+                        neutrals[i].SetActive(false);
+                    }
+                }
+                else {
+                    initialized = true;
                 }
             }
             else {

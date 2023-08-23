@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class DisplaySettings : MonoBehaviour
 {
+    public float gain; // deg2screen
     public float startRange;
-    public float totalRange;
+    public float totalRange; // total range of target in radians
     public float frameRate;
     public float screenConversion; // mm to unity position units (0.032 = 1 mm)
     public float noiseUpdate;

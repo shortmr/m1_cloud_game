@@ -6,18 +6,19 @@ using System;
 public class GroupPoint : MonoBehaviour
 {
     public GameObject settings;
-    public GameObject jointCommand;
+    public GameObject jointTracking;
     public System.Random rand;
     public float timer = 0f;
     public float stdAngle; // rad
     public float stdPosition; // mm
     public float stdVelocity; // rad/s
 
-    private float originz; //  default: -65f (deg)
-    private float gain = 100.0f; // approx. radian2degree * 1.745 (adjusting gain will require additional changes)
+    private float originz; //  default: -90f (deg)
+    private float gain; // approx. 100f = radian2degree * 1.745 (adjusting gain will require additional changes)
     private Quaternion startRotation;
     private Quaternion targetRotation;
     [SerializeField] private float currentAngle;
+    [SerializeField] private float previousAngle;
 
     private float spawnTime;
     private Vector3 startPosition;
@@ -31,8 +32,9 @@ public class GroupPoint : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        originz = settings.GetComponent<DisplaySettings>().startRange + 65;
+        originz = settings.GetComponent<DisplaySettings>().startRange;
         convf = settings.GetComponent<DisplaySettings>().screenConversion;
+        gain = settings.GetComponent<DisplaySettings>().gain*Mathf.Rad2Deg;
 
         randAngle = 0f;
         randPosition = 0f;
@@ -40,7 +42,6 @@ public class GroupPoint : MonoBehaviour
     }
 
     public void Replace() {
-        currentAngle = jointCommand.GetComponent<JointStateSubscriber>().q;
         // RNG
         // rotation
         float u1 = 1.0f-(float)rand.NextDouble(); //uniform(0,1] random floats
@@ -67,6 +68,8 @@ public class GroupPoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.parent.Rotate(0,0,gain*randVelocity*Time.deltaTime);
+        currentAngle = jointTracking.GetComponent<JointStateSubscriber>().target;
+        transform.parent.Rotate(0,0,gain*((currentAngle-previousAngle)+(randVelocity*Time.deltaTime)));
+        previousAngle = currentAngle;
     }
 }

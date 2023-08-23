@@ -8,7 +8,6 @@ public class DesiredGroup : MonoBehaviour
     public GameObject settings;
 
     private float spawnTime;
-    private float totalTime;
     private Vector3 startPosition;
     private float timer;
     private float[] groupSpawns;
@@ -23,7 +22,6 @@ public class DesiredGroup : MonoBehaviour
         groupUpdates = new bool[groupPoints.Length];
         groupUpdateCounts = new int[groupPoints.Length];
         timer = 0f;
-        totalTime = 0f;
         for (int i = 0; i < groupPoints.Length; i++)
         {
             groupPoints[i].GetComponent<GroupPoint>().rand = new System.Random(System.Guid.NewGuid().GetHashCode());
@@ -62,14 +60,6 @@ public class DesiredGroup : MonoBehaviour
     }
 
     void Update() {
-        totalTime += Time.deltaTime;
-        if (totalTime > 10f) {
-            for (int k = 0; k < groupPoints.Length; k++) {
-                Debug.Log("pt0" + k + " updates: " + groupUpdateCounts[k]);
-                groupUpdateCounts[k] = 0;
-            }
-            totalTime = 0f;
-        }
         timer += Time.deltaTime;
         //replace points
         for (int i = 0; i < groupPoints.Length; i++)

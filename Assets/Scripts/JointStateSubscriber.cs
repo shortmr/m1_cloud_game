@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Robotics.ROSTCPConnector;
-using JointState = RosMessageTypes.Sensor.JointStateMsg;
+using JointState = RosMessageTypes.Geometry.Point32Msg;
 
 public class JointStateSubscriber : MonoBehaviour
 {
     private bool startup = true;
     public string topic;
-    public float q;
+    public float actual;
+    public float target;
 
     void Start() {
         if (startup) {
@@ -18,7 +19,8 @@ public class JointStateSubscriber : MonoBehaviour
     }
 
     void StreamData(JointState d) {
-        q = (float)d.position[0];
+        actual = (float)d.x;
+        target = (float)d.y;
     }
 
     private void Update()
