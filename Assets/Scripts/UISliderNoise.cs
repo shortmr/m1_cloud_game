@@ -14,7 +14,7 @@ public class UISliderNoise : MonoBehaviour
     private Slider paramSlider = null;
     private float sliderInit;
     private int numberOfSteps = 0;
-    private float stepAmount = 0.01f;
+    private float stepAmount = 0.1f;
     private string displayText;
 
     // Start is called before the first frame update
