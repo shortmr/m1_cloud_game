@@ -35,7 +35,7 @@ public class MainLoop : MonoBehaviour
 
         for (int i = 0; i < neutrals.Length; i++)
         {
-            neutrals[i].SetActive(true);
+            neutrals[i].SetActive(false); //true
         }
     }
 
@@ -49,7 +49,7 @@ public class MainLoop : MonoBehaviour
             }
             for (int i = 0; i < neutrals.Length; i++)
             {
-                neutrals[i].SetActive(true);
+                neutrals[i].SetActive(false); // true
             }
             if (pass) {
                 stage = stage + 1;
