@@ -10,6 +10,7 @@ public class JointStateSubscriber : MonoBehaviour
     public string topic;
     public float actual;
     public float target;
+    public float start;
 
     void Start() {
         if (startup) {
@@ -21,6 +22,7 @@ public class JointStateSubscriber : MonoBehaviour
     void StreamData(JointState d) {
         actual = (float)d.x;
         target = (float)d.y;
+        start = (float)d.z;
     }
 
     private void Update()

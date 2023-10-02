@@ -11,7 +11,7 @@ public class DesiredGroup : MonoBehaviour
     private float spawnTime;
     private Vector3 startPosition;
     private float timer;
-    private float timerTotal;
+//     private float timerTotal;
     private float[] groupSpawns;
     private bool[] groupUpdates;
     private int[] groupUpdateCounts;
@@ -24,7 +24,7 @@ public class DesiredGroup : MonoBehaviour
         groupUpdates = new bool[groupPoints.Length];
         groupUpdateCounts = new int[groupPoints.Length];
         timer = 0f;
-        timerTotal = 0f;
+//         timerTotal = 0f;
         for (int i = 0; i < groupPoints.Length; i++)
         {
             groupPoints[i].GetComponent<GroupPoint>().rand = new System.Random(System.Guid.NewGuid().GetHashCode());
